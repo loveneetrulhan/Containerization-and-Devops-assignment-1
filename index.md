@@ -10,25 +10,53 @@
 ## 📅 Semester: 6
 
 ---
+# 📘 Introduction
 
-# 🎯 Objective
+Containerization is a modern approach to software deployment that packages an application along with all its dependencies into a standardized unit called a container. This ensures that the application runs consistently across different environments such as development, testing, and production.
 
-To design, containerize, and deploy a web application using:
+In this project, we have implemented a containerized web application using Docker and Docker Compose. The system includes a backend API built with FastAPI and a PostgreSQL database. The application demonstrates key DevOps concepts such as container orchestration, networking, and persistent storage.
 
-* PostgreSQL (Database)
-* FastAPI (Backend)
-* Docker & Docker Compose
-* Macvlan networking with static IP
+This approach improves portability, scalability, and deployment efficiency compared to traditional methods. :contentReference[oaicite:0]{index=0}
 
 ---
 
-# 🏗️ Project Architecture
+# 🎯 Objectives
 
-Client → Backend (FastAPI) → PostgreSQL Database
+The main objectives of this assignment are:
 
-* Backend communicates with DB using environment variables
-* Macvlan network used for static IP
-* Bridge network used for host access
+- To understand the concept of containerization
+- To build and deploy a multi-container application
+- To use Docker Compose for orchestration
+- To implement networking using macvlan and bridge
+- To demonstrate data persistence using volumes
+- To test REST APIs using curl
+- To understand isolation in container networking
+
+This project provides hands-on experience with real-world DevOps practices.
+
+---
+
+# 🏗️ System Architecture
+
+The system consists of the following components:
+
+- **Backend Service (FastAPI)**  
+  Handles API requests and interacts with the database.
+
+- **Database Service (PostgreSQL)**  
+  Stores application data persistently.
+
+- **Docker Compose**  
+  Manages multiple containers and their configurations.
+
+- **Networks**  
+  - Macvlan network for static IP assignment  
+  - Bridge network for host access
+
+- **Volumes**  
+  Used to persist database data even after container restart.
+
+The architecture follows a microservices-based approach where each component runs in its own container.
 
 ---
 
@@ -99,13 +127,20 @@ assignment-1/
 
 ---
 
-# 🌐 Network Configuration
+# 🌐 Networking
 
-* Macvlan network created with subnet
-* Static IP assigned:
+Two types of networks are used in this project:
 
-  * DB → 192.168.1.10
-  * Backend → 192.168.1.20
+### 🔹 Macvlan Network
+- Assigns static IP addresses to containers
+- Allows containers to appear as separate devices on the network
+- Provides better isolation
+
+### 🔹 Bridge Network
+- Enables communication between containers and host
+- Used for accessing services via localhost
+
+This combination ensures both isolation and accessibility.
 
 📸
 ![Network Creation](images_assignment/8_network_creation.png.png)
@@ -145,7 +180,15 @@ docker network inspect my_macvlan
 
 ---
 
-# 🌐 API Testing
+# 🧪 API Testing
+
+The backend API provides the following endpoints:
+
+- `/` → Health check
+- `/insert` → Insert data into database
+- `/data` → Retrieve stored data
+
+Testing was done using curl commands from the terminal. This confirms that the backend and database are correctly connected.
 
 ## Root API
 
@@ -181,6 +224,15 @@ curl http://localhost:8000/data
 ---
 
 # 💾 Volume Persistence
+
+Docker volumes are used to store database data outside the container.
+
+Benefits:
+- Data is not lost when containers are stopped
+- Enables backup and recovery
+- Improves reliability of the application
+
+This was verified by restarting containers and checking that data remained unchanged.
 
 ## Before Restart
 
@@ -269,6 +321,19 @@ Therefore:
 * Port mapping with bridge network allows access
 
 ---
+# ⚠️ Challenges Faced
+
+During the project, the following challenges were encountered:
+
+- Docker Compose not working in WSL initially
+- Macvlan network not accessible from host
+- GitHub authentication using token
+- Image path issues in Markdown
+- Port mapping configuration errors
+
+All issues were resolved through debugging and proper configuration.
+
+---
 
 # 📌 Key Features Implemented
 
@@ -284,9 +349,12 @@ Therefore:
 
 # 🏁 Conclusion
 
-The project successfully demonstrates containerization of a web application using Docker.
-It also highlights networking concepts such as macvlan isolation and bridge network communication.
+This project successfully demonstrates the implementation of containerization using Docker and Docker Compose. It highlights key DevOps concepts such as service orchestration, networking, and data persistence.
 
+Containerization provides significant advantages including portability, scalability, and efficient deployment. It is widely used in modern software development and cloud environments.
+
+Overall, this assignment provided practical exposure to real-world DevOps tools and techniques.
 ---
 
 # 🚀 END
+
