@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+
+  db:
+    build: ./db
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    networks:
+      my_macvlan:
+        ipv4_address: 192.168.1.10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build: ./backend
+    container_name: backend_app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: 192.168.1.10
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    networks:
+      my_macvlan:
+        ipv4_address: 192.168.1.20
+      bridge_net:
+    ports:
+      - "8000:8000"
+    restart: always
+
+
+# 🔹 Volume for persistence
+volumes:
+  pgdata:
+
+
+# 🔹 Networks
+networks:
+  my_macvlan:
+    external: true
+
+  bridge_net:
+    driver: bridge
+
